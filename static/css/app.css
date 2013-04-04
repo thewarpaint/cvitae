@@ -1,0 +1,201 @@
+/*
+@palette-alizarin: #e74c3c;
+@palette-sun-flower: #f1c40f;
+
+*/
+
+/* flat-ui { */
+.btn {
+	padding-top: 11px;
+	padding-bottom: 10px;
+}
+
+.button-wrapper button.btn {
+	margin: 7px;
+	margin-left: 0;
+}
+
+select {
+	/*border: 2px solid #dce4ec;*/
+	color: #34495e;
+	height: 41px;
+	padding: 8px 9px 10px;
+	color: #34495e;
+	font-family: "Lato", sans-serif;
+	font-size: 14px;
+	border-radius: 6px;
+}
+/* flat-ui } */
+
+/* global { */
+#brand {
+	/*color: #e74c3c; /* @palette-alizarin; */
+	color: #fff;
+	font-size: 32px;
+	line-height: 50px;
+}
+
+.cvitae-brand {
+	border-radius: 3px;
+	padding: 1px 3px 2px;
+	color: #fff;
+	background-color: #e74c3c; /* @palette-alizarin; */
+	/*background-color: #f1c40f; /* @palette-sun-flower; */
+	font-weight: bold;
+}
+
+@media (min-width: 980px) {
+body {
+	padding-top: 60px;
+}
+}
+
+#menu-bar-RESTORE, #footer, .dialog {
+	padding: 10px;
+}
+
+#menu-bar-RESTORE {
+	border-radius: 0 0 6px 6px;
+}
+
+#footer {
+	border-radius: 6px 6px 0 0;
+}
+
+.dialog {
+	border-radius: 6px;
+	margin: 20px 0;
+}
+
+.dialog h3 {
+	margin-bottom: 20px;
+}
+
+.dialog p {
+	margin-bottom: 15px;
+}
+/* global } */
+
+/* editor { */
+#editor fieldset {
+	margin-top: 30px;
+}
+
+#editor legend, #editor .list-wrapper label {
+	color: #34495e; /* @palette-wet-asphalt; */
+}
+
+#editor legend {
+	font-size: 24px;
+	font-weight: bold;
+	border-bottom: 1px solid #ecf0f1; /* @palette-clouds; */
+}
+
+#editor .list-items {
+	padding: 10px;
+	border-radius: 6px 6px 0 0;
+}
+
+#editor .list-items > .list-item {
+	border-top: 1px dashed #95a5a6; /* @palette-concrete; */
+	padding: 10px 0 10px 0;
+}
+
+#editor .list-items > .list-item:first-child {
+	border-top: 0;
+	padding-top: 0;
+}
+
+#editor .list-items > .list-item:last-child {
+	padding-bottom: 0;
+}
+
+#editor .list-action {
+	border-radius: 0 0 6px 6px;
+}
+
+#editor .list-empty {
+	border-radius: 6px 6px 6px 6px;
+}
+
+#editor .close-button {
+	padding: 10px 11px 6px;
+}
+/* editor } */
+
+/* preview { */
+#preview h2 {
+	font-size: 36px;
+	font-weight: normal;
+	text-transform: lowercase;
+	margin-bottom: 25px;
+}
+
+#preview h2 .second-part {
+	font-weight: bold;
+}
+
+/* personal { */
+#preview .personal-section {
+	margin-top: 15px;
+}
+
+#preview .personal-section:first-child {
+	margin-top: 0;
+}
+
+#preview .personal-name-section {
+	font-size: 28px;
+}
+
+#preview .personal-last-name {
+	font-weight: bold;
+}
+
+#preview .personal-contact-type {
+	text-transform: uppercase;
+	color: #95a5a6; /* @palette-concrete; */
+	font-size: 12px;
+	display: inline-block;
+	width: 75px;
+	text-align: right;
+	margin-right: 5px;
+}
+
+#preview .gravatar {
+	border: 1px solid #95a5a6; /* @palette-concrete; */
+	border-radius: 6px;
+}
+/* personal } */
+
+/* education { */
+/* education } */
+
+/* education { */
+/* education } */
+
+#preview .education-section, #preview .employment-section {
+	margin-top: 25px;
+}
+
+#preview .education-section:first-child, #preview .employment-section:first-child {
+	margin-top: 0;
+}
+
+#preview .year-interval {
+	color: #95a5a6; /* @palette-concrete; */
+	font-size: 28px;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+/* preview } */
+
+.align-right {
+	text-align: right;
+}
+
+@media (min-width:768px) {
+	.align-right-not-stacked {
+		text-align: right;
+	}
+}
