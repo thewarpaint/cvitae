@@ -34,7 +34,33 @@ var CvitaeApp = {
 				'position': 	null,
 				'description': 	''
 			}
-		]
+		],
+
+		'complementary': {
+			'languages': [
+				{
+					'id': 			1,
+					'name': 		'',
+					'level': 		'basic'
+				}
+			],
+
+			'utilities': [
+				{
+					'id': 			1,
+					'name': 		'',
+					'level': 		'basic'
+				}
+			],
+
+			'technologies': [
+				{
+					'id': 			1,
+					'name': 		'',
+					'level': 		'basic'
+				}
+			]
+		}
 	},
 
 	'catalogs': {
@@ -96,13 +122,128 @@ var CvitaeApp = {
 			'home': 	{ 'id': 1, 'label': 'Casa' },
 			'office': 	{ 'id': 2, 'label': 'Oficina' },
 			'mobile': 	{ 'id': 3, 'label': 'Móvil' }
-		}
+		},
+
+		// Based on http://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers, sort of.
+		'languages': [
+			'Árabe',
+			'Alemán',
+			'Bengalí',
+			'Chino mandarín',
+			'Coreano',
+			'Español',
+			'Francés',
+			'Hindi',
+			'Inglés',
+			'Italiano',
+			'Japonés',
+			'Portugués',
+			'Ruso'
+		],
+
+		'utilities': [
+			/* Adobe */
+			'Adobe Acrobat',
+			'Adobe Audition',
+			'Adobe After Effects',
+			'Adobe AIR',
+			'Adobe Captivate',
+			'Adobe Dreamweaver',
+			'Adobe Fireworks',
+			'Adobe Flash',
+			'Adobe Flex',
+			'Adobe Illustrator',
+			'Adobe InCopy',
+			'Adobe InDesign',
+			'Adobe Lightroom',
+			'Adobe Muse',
+			'Adobe Photoshop',
+			'Adobe Premiere',
+
+			/* Aspel */
+			'Aspel BANCO',
+			'Aspel CAJA',
+			'Aspel COI',
+			'Aspel FACTURE',
+			'Aspel NOI',
+			'Aspel PROD',
+			'Aspel SAE',
+
+			/* Autodesk */
+			'Autodesk AutoCAD',
+			'Autodesk AutoCAD Architecture',
+			'Autodesk Maya',
+			'Autodesk 3ds Max',
+			'Autodesk InfraWorks',
+			'Autodesk Inventor',
+			'Autodesk Revit',
+
+			/* MS */
+			'MS Access',
+			'MS Excel',
+			'MS Outlook',
+			'MS PowerPoint',
+			'MS Visio',
+			'MS Word',
+
+			/* Misc */
+			'Sublime Text'
+		],
+
+		'technologies': [
+			/* frameworks and libraries */
+			'AngularJS',
+			'Grails',
+			'jQuery',
+			'Symfony',
+			'Symfony 2',
+
+			/* programming languages */
+			'Actionscript',
+			'ASP.net',
+			'C',
+			'C++',
+			'C#',
+			'Clojure',
+			'CoffeeScript',
+			'Ensamblador',
+			'Groovy',
+			'Haskell',
+			'Java',
+			'Javascript',
+			'Lisp',
+			'Objective C',
+			'Perl',
+			'PHP',
+			'Python',
+			'Ruby',
+			'Scala',
+			'Scheme',
+			'Smalltalk',
+			'Visual Basic',
+
+			/* other languages */
+			'CSS',
+			'CSS3',
+			'HTML',
+			'HTML5',
+			'LESS',
+			'SASS',
+			'SQL'
+		],
+
+		'levels': [
+			{ 'key': 'basic', 			'label': 'Básico',		'sort': 0 },
+			{ 'key': 'intermediate', 	'label': 'Intermedio',	'sort': 1 },
+			{ 'key': 'advanced', 		'label': 'Avanzado',	'sort': 2 },
+			{ 'key': 'expert', 			'label': 'Experto',		'sort': 3 }
+		]
 	}
 };
 
 
 /* Application */
-angular.module('cvitae', ['cvitaeFilters']);
+angular.module('cvitae', ['cvitaeFilters', 'ui.bootstrap']);
 
 /* Cvitae Controller */
 var CvitaeCtrl = function($scope) {
@@ -128,6 +269,10 @@ var CvitaeCtrl = function($scope) {
 
 	$scope.errorDialog = $('#error-dialog');
 	$scope.dialogCloseable = $('.dialog-closeable');
+
+	// sort arrays
+	$scope.catalogs.utilities.sort();
+	$scope.catalogs.technologies.sort();
 
 	/* collections { */
 	$scope.getItemIndexById = function(collection, itemId) {
@@ -168,13 +313,13 @@ var CvitaeCtrl = function($scope) {
 	/* collections } */
 
 	$scope.save = function() {
-		/*if($scope.hasStorage && $scope.hasJSON) {
+		if($scope.hasStorage && $scope.hasJSON) {
 			localStorage.setItem('cvitae.cvitae', JSON.stringify($scope.cvitae));
 		}
-		else {*/
+		else {
 			$scope.errorDialog.removeClass('hide');
 			$scope.dialogCloseable.addClass('hide');
-		//}
+		}
 	};
 
 	$scope.load = function() {
@@ -306,6 +451,81 @@ var PhoneCtrl = function($scope) {
 	};
 };
 /* phone } */
+
+/* language { */
+var LanguageCtrl = function($scope) {
+	$scope.default = {
+		'name': 	null,
+		'level': 	'basic'
+	};
+
+	$scope.maxId = $scope.getMaxCollectionId($scope.cvitae.complementary.languages);
+
+	$scope.add = function() {
+		var language = angular.extend({ 'id': ++$scope.maxId }, $scope.default);
+
+		$scope.cvitae.complementary.languages.push(language);
+	};
+
+	$scope.remove = function(languageId) {
+		var index = $scope.getItemIndexById($scope.cvitae.complementary.languages, languageId);
+
+		if(index != -1) {
+			$scope.cvitae.complementary.languages.splice(index, 1);
+		}
+	};
+};
+/* language } */
+
+/* utility { */
+var UtilityCtrl = function($scope) {
+	$scope.default = {
+		'name': 	null,
+		'level': 	'basic'
+	};
+
+	$scope.maxId = $scope.getMaxCollectionId($scope.cvitae.complementary.utilities);
+
+	$scope.add = function() {
+		var utility = angular.extend({ 'id': ++$scope.maxId }, $scope.default);
+
+		$scope.cvitae.complementary.utilities.push(utility);
+	};
+
+	$scope.remove = function(utilityId) {
+		var index = $scope.getItemIndexById($scope.cvitae.complementary.utilities, utilityId);
+
+		if(index != -1) {
+			$scope.cvitae.complementary.utilities.splice(index, 1);
+		}
+	};
+};
+/* utility } */
+
+/* technology { */
+var TechnologyCtrl = function($scope) {
+	$scope.default = {
+		'name': 	null,
+		'level': 	'basic'
+	};
+
+	$scope.maxId = $scope.getMaxCollectionId($scope.cvitae.complementary.technologies);
+
+	$scope.add = function() {
+		var technology = angular.extend({ 'id': ++$scope.maxId }, $scope.default);
+
+		$scope.cvitae.complementary.technologies.push(technology);
+	};
+
+	$scope.remove = function(technologyId) {
+		var index = $scope.getItemIndexById($scope.cvitae.complementary.technologies, technologyId);
+
+		if(index != -1) {
+			$scope.cvitae.complementary.technologies.splice(index, 1);
+		}
+	};
+};
+/* technology } */
 
 angular.module('cvitaeFilters', []).
 	filter('markdown', function() {
