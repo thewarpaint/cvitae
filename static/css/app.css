@@ -1,7 +1,8 @@
 /*
 @palette-alizarin: #e74c3c;
 @palette-sun-flower: #f1c40f;
-
+@palette-carrot: #e67e22;
+@palette-amethyst: #9b59b6;
 */
 
 /* flat-ui { */
@@ -173,6 +174,24 @@ body {
 
 /* education { */
 /* education } */
+
+/* complementary { */
+#preview .label.level.basic {
+	background-color: #f1c40f; /* @palette-sun-flower */
+}
+
+#preview .label.level.intermediate {
+	background-color: #e67e22; /* @palette-carrot */
+}
+
+#preview .label.level.advanced {
+	background-color: #e74c3c; /* @palette-alizarin */
+}
+
+#preview .label.level.expert {
+	background-color: #9b59b6; /* @palette-amethyst */
+}
+/* complementary } */
 
 #preview .education-section, #preview .employment-section {
 	margin-top: 25px;
