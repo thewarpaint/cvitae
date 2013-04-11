@@ -2,10 +2,17 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript">
+		window.angular || document.write('<script type="text/javascript" src="static/js/lib/angular-1.0.5.min.js"><\/script>');
+		window.jQuery || document.write('<script type="text/javascript" src="static/js/lib/jquery-1.9.1.min.js"><\/script>');
+		window.jQuery.fn.tooltip || document.write('<script type="text/javascript" src="static/js/lib/bootstrap-2.3.1.min.js"><\/script>');
+	</script>
 	<script src="static/js/app.js"></script>
+	<script src="static/js/lib/angular-ui-bootstrap-tpls-0.2.0.min.js"></script>
 	<script src="static/js/lib/markdown-js.js"></script>
 	<script src="static/js/lib/json2.min.js"></script>
 	<script src="static/js/lib/md5.js"></script>
@@ -18,18 +25,6 @@
 </head>
 
 <body ng-app="cvitae" ng-controller="CvitaeCtrl">
-	<!--<div class="navbar navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container">
-				<a class="brand" href="#">cvitae</a>
-
-				<form class="navbar-form pull-right">
-					<button type="submit" class="btn">Guardar</button>
-				</form>
-			</div>
-		</div>
-	</div>-->
-
 	<div id="menu-bar" class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
 	<div class="container">
@@ -38,7 +33,7 @@
 				<h3 id="brand">cvitae</h3>
 			</div>
 			<div class="span6 button-wrapper align-right-not-stacked">
-				<button type="submit" class="btn btn-large btn-primary" ng-show="editMode" ng-click="save()">Guardar</button><button type="button" class="btn btn-large btn-info" ng-click="editMode = !editMode" ng-show="editMode"><i class="icon-search icon-white"></i> Vista previa</button><button class="btn btn-large btn-info" ng-click="editMode = !editMode" ng-show="!editMode"><i class="icon-pencil icon-white"></i> Vista de edición</button>
+				<button type="submit" class="btn btn-large btn-primary" ng-show="editMode" ng-click="save()" form="editor">Guardar</button><button type="button" class="btn btn-large btn-info" ng-click="editMode = !editMode" ng-show="editMode"><i class="icon-search icon-white"></i> Vista previa</button><button class="btn btn-large btn-info" ng-click="editMode = !editMode" ng-show="!editMode"><i class="icon-pencil icon-white"></i> Vista de edición</button>
 			</div>
 		</div>
 	</div>
@@ -219,6 +214,58 @@
 					<button class="btn btn-primary btn-block list-action" ng-class="{'list-empty': !cvitae.employment.length}" type="button" ng-click="add()"><i class="icon-plus icon-white"></i> Empleo</button>
 				</div>
 			</fieldset>
+
+			<fieldset>
+				<legend>Información complementaria</legend>
+
+				<div class="control-group" ng-controller="LanguageCtrl">
+					<label class="control-label" for="state-input">Idiomas</label>
+					<div class="controls list-wrapper">
+						<div class="list-items palette-clouds" ng-show="cvitae.complementary.languages.length">
+							<div ng-repeat="language in cvitae.complementary.languages" class="list-item clearfix">
+								<button class="btn btn-danger pull-right close-button" type="button" ng-click="remove(language.id)"><i class="icon-remove icon-white"></i></button>
+								<div>
+									<input type="text" ng-model="language.name" typeahead="lang for lang in catalogs.languages | filter:$viewValue" placeholder="Idioma" required="required">
+									<select ng-options="value.key as value.label for value in catalogs.levels | orderBy:'sort'" ng-model="language.level"></select>
+								</div>
+							</div>
+						</div>
+						<button class="btn btn-primary btn-block list-action" ng-class="{'list-empty': !cvitae.complementary.languages.length}" type="button" ng-click="add()"><i class="icon-plus icon-white"></i> Idioma</button>
+					</div>
+				</div>
+
+				<div class="control-group" ng-controller="UtilityCtrl">
+					<label class="control-label" for="state-input">Paquetería</label>
+					<div class="controls list-wrapper">
+						<div class="list-items palette-clouds" ng-show="cvitae.complementary.utilities.length">
+							<div ng-repeat="utility in cvitae.complementary.utilities" class="list-item clearfix">
+								<button class="btn btn-danger pull-right close-button" type="button" ng-click="remove(utility.id)"><i class="icon-remove icon-white"></i></button>
+								<div>
+									<input type="text" ng-model="utility.name" typeahead="utility for utility in catalogs.utilities | filter:$viewValue" placeholder="Nombre" required="required">
+									<select ng-options="value.key as value.label for value in catalogs.levels | orderBy:'sort'" ng-model="utility.level"></select>
+								</div>
+							</div>
+						</div>
+						<button class="btn btn-primary btn-block list-action" ng-class="{'list-empty': !cvitae.complementary.utilities.length}" type="button" ng-click="add()"><i class="icon-plus icon-white"></i> Idioma</button>
+					</div>
+				</div>
+
+				<div class="control-group" ng-controller="TechnologyCtrl">
+					<label class="control-label" for="state-input">Tecnología</label>
+					<div class="controls list-wrapper">
+						<div class="list-items palette-clouds" ng-show="cvitae.complementary.technologies.length">
+							<div ng-repeat="technology in cvitae.complementary.technologies" class="list-item clearfix">
+								<button class="btn btn-danger pull-right close-button" type="button" ng-click="remove(technology.id)"><i class="icon-remove icon-white"></i></button>
+								<div>
+									<input type="text" ng-model="technology.name" typeahead="technology for technology in catalogs.technologies | filter:$viewValue" placeholder="Nombre" required="required">
+									<select ng-options="value.key as value.label for value in catalogs.levels | orderBy:'sort'" ng-model="technology.level"></select>
+								</div>
+							</div>
+						</div>
+						<button class="btn btn-primary btn-block list-action" ng-class="{'list-empty': !cvitae.complementary.technologies.length}" type="button" ng-click="add()"><i class="icon-plus icon-white"></i> Idioma</button>
+					</div>
+				</div>
+			</fieldset>
 		</form>
 
 		<div id="preview" class="dialog-closeable" ng-show="!editMode">
@@ -290,6 +337,32 @@
 							<div ng-bind="employment.position"></div>
 							<div ng-bind-html-unsafe="employment.description | markdown"></div>
 						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="complementary-wrapper">
+				<h2>Información <span class="second-part">complementaria</span></h2>
+
+				<div class="row-fluid">
+					<div class="span9 offset3"><h3>Idiomas</h3></div>
+				</div>
+
+				<div>
+					<div class="row-fluid complementary-section" ng-repeat="language in cvitae.complementary.languages | orderBy:'language.level.sort':true">
+						<div class="span3 align-right-not-stacked"><span class="label level" ng-class="language.level">{{ language.level }}</span></div>
+						<div class="span9">{{ language.name }}</div>
+					</div>
+				</div>
+
+				<div class="row-fluid">
+					<div class="span9 offset3"><h3>Paquetería</h3></div>
+				</div>
+
+				<div>
+					<div class="row-fluid complementary-section" ng-repeat="utility in cvitae.complementary.utilities | orderBy:'utility.level.sort':true">
+						<div class="span3 align-right-not-stacked"><span class="label level" ng-class="utility.level">{{ utility.level }}</span></div>
+						<div class="span9">{{ utility.name }}</div>
 					</div>
 				</div>
 			</div>
