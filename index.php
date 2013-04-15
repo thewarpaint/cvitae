@@ -74,7 +74,7 @@
 				<div class="control-group">
 					<label class="control-label" for="date-of-birth-input">Fecha de nacimiento</label>
 					<div class="controls">
-						<input type="text" class="input-medium" name="date-of-birth" name="date-of-birth-input" ng-model="cvitae.personal.dateOfBirth" required="required">
+						<input type="text" class="input-medium" name="date-of-birth" name="date-of-birth-input" ng-model="cvitae.personal.dateOfBirth" required="required" placeholder="aaaa-mm-dd" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" title="Año (4) - Mes (2) - Día (2)">
 					</div>
 				</div>
 
@@ -89,21 +89,21 @@
 				<div class="control-group">
 					<label class="control-label" for="address-input">Dirección</label>
 					<div class="controls">
-						<input type="text" class="input-xxlarge" placeholder="Calle, número interior y/o exterior, colonia, código postal" name="address" id="address-input" ng-model="cvitae.personal.address">
+						<input type="text" class="input-xxlarge" placeholder="Calle, número interior y/o exterior, colonia, código postal" name="address" id="address-input" ng-model="cvitae.personal.address" required="required">
 					</div>
 				</div>
 
 				<div class="control-group">
 					<label class="control-label" for="district-input">Delegación</label>
 					<div class="controls">
-						<select ng-options="key as value.label for (key, value) in catalogs.boroughs" ng-model="cvitae.personal.borough"></select>
+						<select ng-options="key as value.label for (key, value) in catalogs.boroughs" ng-model="cvitae.personal.borough" required="required"></select>
 					</div>
 				</div>
 
 				<div class="control-group">
 					<label class="control-label" for="state-input">Estado</label>
 					<div class="controls">
-						<select ng-options="key as value.label for (key, value) in catalogs.states" ng-model="cvitae.personal.state"></select>
+						<select ng-options="key as value.label for (key, value) in catalogs.states" ng-model="cvitae.personal.state" required="required"></select>
 					</div>
 				</div>
 
@@ -114,8 +114,8 @@
 							<div ng-repeat="phone in cvitae.personal.phones" class="list-item clearfix">
 								<button class="btn btn-danger pull-right close-button" type="button" ng-click="remove(phone.id)"><i class="icon-remove icon-white"></i></button>
 								<div>
-									<input type="text" ng-model="phone.number">
-									<select ng-options="key as value.label for (key, value) in catalogs.phoneTypes" ng-model="phone.type"></select>
+									<input type="text" ng-model="phone.number" required="required">
+									<select ng-options="key as value.label for (key, value) in catalogs.phoneTypes" ng-model="phone.type" required="required"></select>
 								</div>
 							</div>
 						</div>
