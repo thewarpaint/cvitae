@@ -258,7 +258,7 @@
 								</div>
 							</div>
 						</div>
-						<button class="btn btn-primary btn-block list-action" ng-class="{'list-empty': !cvitae.complementary.utilities.length}" type="button" ng-click="add()"><i class="icon-plus icon-white"></i> Idioma</button>
+						<button class="btn btn-primary btn-block list-action" ng-class="{'list-empty': !cvitae.complementary.utilities.length}" type="button" ng-click="add()"><i class="icon-plus icon-white"></i> Paquetería</button>
 					</div>
 				</div>
 
@@ -274,7 +274,7 @@
 								</div>
 							</div>
 						</div>
-						<button class="btn btn-primary btn-block list-action" ng-class="{'list-empty': !cvitae.complementary.technologies.length}" type="button" ng-click="add()"><i class="icon-plus icon-white"></i> Idioma</button>
+						<button class="btn btn-primary btn-block list-action" ng-class="{'list-empty': !cvitae.complementary.technologies.length}" type="button" ng-click="add()"><i class="icon-plus icon-white"></i> Tecnología</button>
 					</div>
 				</div>
 			</fieldset>
