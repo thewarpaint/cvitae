@@ -37,6 +37,19 @@
 </head>
 
 <body ng-app="cvitae" ng-controller="CvitaeCtrl">
+	<div id="fb-root"></div>
+	<script>
+		window.fbAsyncInit = CvitaeApp.fbAsyncInit;
+
+		// Load the SDK Asynchronously
+		(function(d){
+			var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement('script'); js.id = id; js.async = true;
+			js.src = "//connect.facebook.net/en_US/all.js";
+			ref.parentNode.insertBefore(js, ref);
+		}(document));
+	  </script>
 	<div id="menu-bar" class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
 	<div class="container">
@@ -53,7 +66,7 @@
 	</div>
 
 	<div class="container">
-		<form id="editor" class="form-horizontal dialog-closeable" ng-show="editMode" ng-submit="save()">
+		<form id="editor" class="form-horizontal dialog-closeable hide" ng-show="editMode" ng-submit="save()">
 			<fieldset>
 				<legend>Información personal</legend>
 
@@ -380,15 +393,29 @@
 			</div>
 		</div>
 
-		<div id="error-dialog" class="row-fluid hide">
+		<div id="error-dialog" class="row-fluid hidee">
 		<div class="span6 offset3">
-			<div id="local-storage-error">
+			<div id="local-storage-error" class="hide">
 				<div class="dialog palette-clouds">
 					<h3>Error: localStorage no soportado.</h3>
 					<p>Por el momento, almacenamos los datos de tu <span class="cvitae-brand">cvitae</span> en tu propio navegador. Desafortunadamente, parece que el tuyo no soporta esta característica.</p>
 					<p><a href="http://browsehappy.com/?locale=es" target="_blank">¡Obtén un navegador más actualizado aquí!</a></p>
 
 					<button type="button" class="btn btn-primary btn-block" ng-click="closeDialog()">Cerrar</button>
+				</div>
+			</div>
+
+			<div id="login-error">
+				<div class="dialog palette-clouds">
+					<h3>¡Bienvenido!</h3>
+					<p><span class="cvitae-brand">cvitae</span> es una herramienta para generar tu currículum vitae. En línea. Fácil. Rápido. Gratis.</p>
+					<p>
+						Te recomendamos iniciar sesión con Facebook para obtener tus datos inmediatamente.
+						<!--Por el momento no almacenamos tus datos.--> Si decides no hacerlo, puedes capturar tu información manualmente.
+					</p>
+
+					<button type="button" class="btn btn-info btn-block" ng-click="closeDialog()">Iniciar sesión con Facebook</button>
+					<button type="button" class="btn btn-block" ng-click="closeDialog()">Capturar información manualmente</button>
 				</div>
 			</div>
 		</div>
