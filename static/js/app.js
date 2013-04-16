@@ -268,9 +268,16 @@ var CvitaeApp = {
 		FB.login(function(response) {
 			if (response.authResponse) {
 				console.log('connected!');
+				CvitaeApp.fbGetData();
 			} else {
 				console.log('cancelled :(');
 			}
+		});
+	},
+
+	fbGetData: function() {
+		FB.api('/me', function(response) {
+			console.log(response);
 		});
 	}
 };
