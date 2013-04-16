@@ -238,6 +238,40 @@ var CvitaeApp = {
 			{ 'key': 'advanced', 		'label': 'Avanzado',	'sort': 2 },
 			{ 'key': 'expert', 			'label': 'Experto',		'sort': 3 }
 		]
+	},
+
+	fbAsyncInit: function() {
+		FB.init({
+			appId      : '484127338303100',
+			channelUrl : '//cvitaeapp.herokuapp.com/channel.html',
+			status     : true,
+			cookie     : true,
+			xfbml      : true
+		});
+
+		FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+				console.log('connected!');
+			}
+			else if (response.status === 'not_authorized') {
+				console.log('not authorized :(');
+				CvitaeApp.fbLogin();
+			}
+			else {
+				console.log('not logged in :|');
+				CvitaeApp.fbLogin();
+			}
+		});
+	},
+
+	fbLogin: function() {
+		FB.login(function(response) {
+			if (response.authResponse) {
+				console.log('connected!');
+			} else {
+				console.log('cancelled :(');
+			}
+		});
 	}
 };
 
