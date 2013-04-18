@@ -286,6 +286,8 @@ var CvitaeApp = {
 				$scope.cvitae.personal.lastName = response.last_name;
 
 				//missing: $scope.cvitae.personal. [dateOfBirth, email, address, borough, state, phones?]
+				$scope.cvitae.personal.dateOfBirth = response.birthday.split('/').reverse().join('-');
+				$scope.cvitae.personal.email = response.email;
 
 				// Education
 				if(response.education) {
