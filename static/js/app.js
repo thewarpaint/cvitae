@@ -275,7 +275,7 @@ var CvitaeApp = {
 			}
 		},
 		{
-			perms: 'email,user_birthday,user_hometown,user_education_history,user_work_history'
+			scope: 'email,user_birthday,user_hometown,user_education_history,user_work_history'
 		});
 	},
 
