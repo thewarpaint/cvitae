@@ -252,7 +252,7 @@ var CvitaeApp = {
 		FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
 				console.log('connected!');
-				CvitaeApp.fbLogin();
+				CvitaeApp.fbGetData();
 			}
 			else if (response.status === 'not_authorized') {
 				console.log('not authorized :(');
