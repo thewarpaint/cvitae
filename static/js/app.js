@@ -287,6 +287,7 @@ var CvitaeApp = {
 				// Education
 				if(response.education) {
 					var education;
+					$scope.cvitae.education = [];
 
 					for(var i=0, educationLen = response.education.length; i<educationLen; i++) {
 						if(response.education[i].type == 'High School' || response.education[i].type == 'College' || response.education[i].type == 'Graduate School') {
@@ -310,6 +311,7 @@ var CvitaeApp = {
 				// Employment
 				if(response.work) {
 					var employment;
+					$scope.cvitae.employment = [];
 
 					for(var i=0, employmentLen = response.work.length; i<employmentLen; i++) {
 						//missing: $scope.cvitae.education. [current?, department, description]
