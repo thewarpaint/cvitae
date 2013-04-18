@@ -252,6 +252,7 @@ var CvitaeApp = {
 		FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
 				console.log('connected!');
+				CvitaeApp.fbLogin();
 			}
 			else if (response.status === 'not_authorized') {
 				console.log('not authorized :(');
@@ -277,6 +278,60 @@ var CvitaeApp = {
 
 	fbGetData: function() {
 		FB.api('/me', function(response) {
+			$('body').scope().$apply(function($scope) {
+				$scope.cvitae.personal.firstName = response.first_name + (response.middle_name ? (' ' + response.middle_name) : '');
+				$scope.cvitae.personal.lastName = response.last_name;
+
+				//missing: $scope.cvitae.personal. [dateOfBirth, email, address, borough, state, phones?]
+
+				// Education
+				if(response.education) {
+					var education;
+
+					for(var i=0, educationLen = response.education.length; i<educationLen; i++) {
+						if(response.education[i].type == 'High School' || response.education[i].type == 'College' || response.education[i].type == 'Graduate School') {
+							//missing: $scope.cvitae.education. [current?, startDate, school, degree?]
+							education = {};
+							education['institution'] = response.education[i].school.name;
+
+							if(response.education[i].concentration) {
+								education['degree'] = response.education[i].concentration[0].name;
+							}
+
+							if(response.education[i].year) {
+								education['endDate'] = response.education[i].year.name;
+							}
+
+							$scope.cvitae.education.push(education);
+						}
+					}
+				}
+
+				// Employment
+				if(response.work) {
+					var employment;
+
+					for(var i=0, employmentLen = response.work.length; i<employmentLen; i++) {
+						//missing: $scope.cvitae.education. [current?, department, description]
+						employment = {};
+						employment['company'] = response.work[i].employer.name;
+
+						if(response.work[i].start_date) {
+							employment['startDate'] = (response.work[i].start_date.split('-'))[0];
+						}
+
+						if(response.work[i].end_date) {
+							employment['endDate'] = (response.work[i].end_date.split('-'))[0];
+						}
+
+						if(response.work[i].position) {
+							employment['position'] = response.work[i].position.name;
+						}
+
+						$scope.cvitae.employment.push(employment);
+					}
+				}
+			});
 			console.log(response);
 		});
 	}
