@@ -273,6 +273,9 @@ var CvitaeApp = {
 			} else {
 				console.log('cancelled :(');
 			}
+		},
+		{
+			perms: 'email,user_birthday,user_hometown,user_education_history,user_work_history'
 		});
 	},
 
