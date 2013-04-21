@@ -359,12 +359,15 @@ var CvitaeCtrl = function($scope) {
 
 	$scope.fbGetLoginStatusCallback = function(response) {
 		if(response.status === 'connected') {
+			console.log('connected! :D');
 			$scope.fbGetData();
 		}
 		else if(response.status === 'not_authorized') {
+			console.log('not authorized :(');
 			$scope.fbLogin();
 		}
 		else {
+			console.log('not logged in :|');
 			$scope.fbLogin();
 		}
 	};
@@ -375,7 +378,7 @@ var CvitaeCtrl = function($scope) {
 				$scope.fbGetData();
 			}
 			else {
-				//console.log('cancelled :(');
+				console.log('cancelled :(');
 			}
 		},
 		{
@@ -445,7 +448,7 @@ var CvitaeCtrl = function($scope) {
 			//});
 
 			$scope.closeDialog();
-			//console.log(response);
+			console.log(response);
 		});
 	};
 	/* Facebook API } */
