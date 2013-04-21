@@ -3,13 +3,13 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.00" />
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
 	<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
 
 	<script type="text/javascript">
-		window.angular || document.write('<script type="text/javascript" src="static/js/lib/angular-1.0.5.min.js"><\/script>');
 		window.jQuery || document.write('<script type="text/javascript" src="static/js/lib/jquery-1.9.1.min.js"><\/script>');
+		window.angular || document.write('<script type="text/javascript" src="static/js/lib/angular-1.0.5.min.js"><\/script>');
 		window.jQuery.fn.tooltip || document.write('<script type="text/javascript" src="static/js/lib/bootstrap-2.3.1.min.js"><\/script>');
 	</script>
 	<script src="static/js/app.js"></script>
@@ -38,6 +38,19 @@
 </head>
 
 <body ng-app="cvitae" ng-controller="CvitaeCtrl">
+	<div id="fb-root"></div>
+	<script>
+		window.fbAsyncInit = CvitaeApp.fbAsyncInit;
+
+		// Load the SDK Asynchronously
+		(function(d){
+			var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement('script'); js.id = id; js.async = true;
+			js.src = "//connect.facebook.net/en_US/all.js";
+			ref.parentNode.insertBefore(js, ref);
+		}(document));
+	  </script>
 	<div id="menu-bar" class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
 	<div class="container">
@@ -46,7 +59,7 @@
 				<h3 id="brand">cvitae</h3>
 			</div>
 			<div class="span6 button-wrapper align-right-not-stacked">
-				<button type="submit" class="btn btn-large btn-primary" ng-show="editMode" ng-click="save()" form="editor">Guardar</button><button type="button" class="btn btn-large btn-info" ng-click="editMode = !editMode" ng-show="editMode"><i class="icon-search icon-white"></i> Vista previa</button><button class="btn btn-large btn-info" ng-click="editMode = !editMode" ng-show="!editMode"><i class="icon-pencil icon-white"></i> Vista de edición</button>
+				<button type="submit" class="btn btn-large btn-primary" ng-show="editMode" ng-click="save()" form="editor">Guardar</button><button type="button" class="btn btn-large btn-info" ng-click="editMode = !editMode" ng-show="editMode"><i class="icon-search icon-white"></i> Vista previa</button><button class="btn btn-large btn-info" ng-click="editMode = !editMode" ng-show="!editMode"><i class="icon-pencil icon-white"></i> Vista de edición</button><button class="btn btn-large btn-danger" ng-click="clear()"><i class="icon-remove icon-white"></i> Borrar</button>
 			</div>
 		</div>
 	</div>
@@ -54,7 +67,7 @@
 	</div>
 
 	<div class="container">
-		<form id="editor" class="form-horizontal dialog-closeable" ng-show="editMode" ng-submit="save()">
+		<form id="editor" class="form-horizontal dialog-closeable hide" ng-show="editMode" ng-submit="save()">
 			<fieldset>
 				<legend>Información personal</legend>
 
@@ -381,15 +394,29 @@
 			</div>
 		</div>
 
-		<div id="error-dialog" class="row-fluid hide">
+		<div id="error-dialog" class="row-fluid hidee">
 		<div class="span6 offset3">
-			<div id="local-storage-error">
+			<div id="local-storage-error" class="hide">
 				<div class="dialog palette-clouds">
 					<h3>Error: localStorage no soportado.</h3>
 					<p>Por el momento, almacenamos los datos de tu <span class="cvitae-brand">cvitae</span> en tu propio navegador. Desafortunadamente, parece que el tuyo no soporta esta característica.</p>
 					<p><a href="http://browsehappy.com/?locale=es" target="_blank">¡Obtén un navegador más actualizado aquí!</a></p>
 
 					<button type="button" class="btn btn-primary btn-block" ng-click="closeDialog()">Cerrar</button>
+				</div>
+			</div>
+
+			<div id="login-error">
+				<div class="dialog palette-clouds">
+					<h3>¡Bienvenido!</h3>
+					<p><span class="cvitae-brand">cvitae</span> es una herramienta para generar tu currículum vitae. En línea. Fácil. Rápido. Gratis.</p>
+					<p>
+						Te recomendamos iniciar sesión con Facebook para obtener tus datos inmediatamente.
+						<!--Por el momento no almacenamos tus datos.--> Si decides no hacerlo, puedes capturar tu información manualmente.
+					</p>
+
+					<button type="button" class="btn btn-info btn-block" ng-click="fbGetLoginStatus()">Iniciar sesión con Facebook</button>
+					<button type="button" class="btn btn-block" ng-click="closeDialog()">Capturar información manualmente</button>
 				</div>
 			</div>
 		</div>

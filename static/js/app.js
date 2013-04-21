@@ -238,6 +238,16 @@ var CvitaeApp = {
 			{ 'key': 'advanced', 		'label': 'Avanzado',	'sort': 2 },
 			{ 'key': 'expert', 			'label': 'Experto',		'sort': 3 }
 		]
+	},
+
+	fbAsyncInit: function() {
+		FB.init({
+			appId      : '484127338303100',
+			channelUrl : '//cvitaeapp.herokuapp.com/channel.html',
+			status     : true,
+			cookie     : true,
+			xfbml      : true
+		});
 	}
 };
 
@@ -312,6 +322,10 @@ var CvitaeCtrl = function($scope) {
 	};
 	/* collections } */
 
+	$scope.clear = function() {
+		$scope.cvitae = CvitaeApp.cvitae;
+	};
+
 	$scope.save = function() {
 		if($scope.hasStorage && $scope.hasJSON) {
 			localStorage.setItem('cvitae.cvitae', JSON.stringify($scope.cvitae));
@@ -342,6 +356,110 @@ var CvitaeCtrl = function($scope) {
 		$scope.dialogCloseable.removeClass('hide');
 	};
 
+	/* Facebook API { */
+	$scope.fbGetLoginStatus = function() {
+		FB.getLoginStatus($scope.fbGetLoginStatusCallback);
+	};
+
+	$scope.fbGetLoginStatusCallback = function(response) {
+		if(response.status === 'connected') {
+			console.log('connected! :D');
+			$scope.fbGetData();
+		}
+		else if(response.status === 'not_authorized') {
+			console.log('not authorized :(');
+			$scope.fbLogin();
+		}
+		else {
+			console.log('not logged in :|');
+			$scope.fbLogin();
+		}
+	};
+
+	$scope.fbLogin = function() {
+		FB.login(function(response) {
+			if(response.authResponse) {
+				$scope.fbGetData();
+			}
+			else {
+				console.log('cancelled :(');
+			}
+		},
+		{
+			scope: 'email,user_birthday,user_hometown,user_education_history,user_work_history'
+		});
+	};
+
+	$scope.fbGetData = function() {
+		FB.api('/me', $scope.fbGetDataCallback);
+	};
+
+	$scope.fbGetDataCallback = function(response) {
+		$scope.cvitae.personal.firstName = response.first_name + (response.middle_name ? (' ' + response.middle_name) : '');
+		$scope.cvitae.personal.lastName = response.last_name;
+
+		//missing: $scope.cvitae.personal. [dateOfBirth, email, address, borough, state, phones?]
+		$scope.cvitae.personal.dateOfBirth = response.birthday.split('/').reverse().join('-');
+		$scope.cvitae.personal.email = response.email;
+
+		// Education
+		if(response.education) {
+			var education;
+			$scope.cvitae.education = [];
+
+			for(var i=0, educationLen = response.education.length; i<educationLen; i++) {
+				if(response.education[i].type == 'High School' || response.education[i].type == 'College' || response.education[i].type == 'Graduate School') {
+					//missing: $scope.cvitae.education. [current?, startDate, school, degree?]
+					education = {};
+					education['institution'] = response.education[i].school.name;
+
+					if(response.education[i].concentration) {
+						education['degree'] = response.education[i].concentration[0].name;
+					}
+
+					if(response.education[i].year) {
+						education['endDate'] = response.education[i].year.name;
+					}
+
+					$scope.cvitae.education.push(education);
+				}
+			}
+		}
+
+		// Employment
+		if(response.work) {
+			var employment;
+			$scope.cvitae.employment = [];
+
+			for(var i=0, employmentLen = response.work.length; i<employmentLen; i++) {
+				//missing: $scope.cvitae.education. [current?, department, description]
+				employment = {};
+				employment['company'] = response.work[i].employer.name;
+
+				if(response.work[i].start_date) {
+					employment['startDate'] = (response.work[i].start_date.split('-'))[0];
+				}
+
+				if(response.work[i].end_date) {
+					employment['endDate'] = (response.work[i].end_date.split('-'))[0];
+				}
+
+				if(response.work[i].position) {
+					employment['position'] = response.work[i].position.name;
+				}
+
+				$scope.cvitae.employment.push(employment);
+			}
+		}
+
+		$scope.$apply();
+		$scope.closeDialog();
+
+		//console.log(response); console.log($scope.cvitae);
+	};
+	/* Facebook API } */
+
+	// "on load"
 	$scope.load();
 };
 
@@ -530,7 +648,14 @@ var TechnologyCtrl = function($scope) {
 angular.module('cvitaeFilters', []).
 	filter('markdown', function() {
 		return function(value) {
-			return markdown.toHTML(value);
+			try {
+				value = markdown.toHTML(value);
+			}
+			catch(e) {
+				value = '';
+			}
+
+			return value;
 		}
 	}).
 	filter('gravtastic', function() {
