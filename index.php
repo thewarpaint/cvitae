@@ -414,7 +414,7 @@
 						<!--Por el momento no almacenamos tus datos.--> Si decides no hacerlo, puedes capturar tu información manualmente.
 					</p>
 
-					<button type="button" class="btn btn-info btn-block" ng-click="closeDialog()">Iniciar sesión con Facebook</button>
+					<button type="button" class="btn btn-info btn-block" ng-click="fbGetLoginStatus()">Iniciar sesión con Facebook</button>
 					<button type="button" class="btn btn-block" ng-click="closeDialog()">Capturar información manualmente</button>
 				</div>
 			</div>
