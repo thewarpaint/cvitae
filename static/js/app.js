@@ -395,7 +395,6 @@ var CvitaeCtrl = function($scope) {
 	};
 
 	$scope.fbGetDataCallback = function(response) {
-		//$('body').scope().$apply(function($scope) {
 		$scope.cvitae.personal.firstName = response.first_name + (response.middle_name ? (' ' + response.middle_name) : '');
 		$scope.cvitae.personal.lastName = response.last_name;
 
@@ -452,11 +451,11 @@ var CvitaeCtrl = function($scope) {
 				$scope.cvitae.employment.push(employment);
 			}
 		}
-		//});
 
+		$scope.$apply();
 		$scope.closeDialog();
-		//console.log(response);
-		console.log($scope.cvitae);
+
+		//console.log(response); console.log($scope.cvitae);
 	};
 	/* Facebook API } */
 
