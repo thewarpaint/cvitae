@@ -59,7 +59,10 @@
 				<h3 id="brand">cvitae</h3>
 			</div>
 			<div class="span6 button-wrapper align-right-not-stacked">
-				<button type="submit" class="btn btn-large btn-primary" ng-show="editMode" ng-click="save()" form="editor">Guardar</button><button type="button" class="btn btn-large btn-info" ng-click="editMode = !editMode" ng-show="editMode"><i class="icon-search icon-white"></i> Vista previa</button><button class="btn btn-large btn-info" ng-click="editMode = !editMode" ng-show="!editMode"><i class="icon-pencil icon-white"></i> Vista de edición</button><button class="btn btn-large btn-danger" ng-click="clear()"><i class="icon-remove icon-white"></i> Borrar</button>
+				<button type="submit" class="btn btn-large btn-primary" ng-show="editMode" ng-click="save()" form="editor">Guardar</button>
+				<button type="submit" class="btn btn-large btn-info" ng-click="toggleView()" ng-show="editMode" form="editor"><i class="icon-search icon-white"></i> Vista previa</button>
+				<button class="btn btn-large btn-info" ng-click="toggleView()" ng-show="!editMode"><i class="icon-pencil icon-white"></i> Vista de edición</button>
+				<button class="btn btn-large btn-danger" ng-click="clear()"><i class="icon-remove icon-white"></i> Borrar</button>
 			</div>
 		</div>
 	</div>

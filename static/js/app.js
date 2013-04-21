@@ -279,6 +279,7 @@ var CvitaeCtrl = function($scope) {
 
 	$scope.errorDialog = $('#error-dialog');
 	$scope.dialogCloseable = $('.dialog-closeable');
+	$scope.form = $('#editor');
 
 	// sort arrays
 	$scope.catalogs.utilities.sort();
@@ -322,13 +323,16 @@ var CvitaeCtrl = function($scope) {
 	};
 	/* collections } */
 
+	/* actions { */
 	$scope.clear = function() {
 		$scope.cvitae = CvitaeApp.cvitae;
 	};
 
 	$scope.save = function() {
 		if($scope.hasStorage && $scope.hasJSON) {
-			localStorage.setItem('cvitae.cvitae', JSON.stringify($scope.cvitae));
+			if($scope.form[0].checkValidity()) {
+				localStorage.setItem('cvitae.cvitae', JSON.stringify($scope.cvitae));
+			}
 		}
 		else {
 			$scope.errorDialog.removeClass('hide');
@@ -351,10 +355,19 @@ var CvitaeCtrl = function($scope) {
 		}
 	};
 
+	$scope.toggleView = function() {
+		if($scope.editMode && !$scope.form[0].checkValidity()) {
+			return;
+		}
+
+		$scope.editMode = !$scope.editMode;
+	};
+
 	$scope.closeDialog = function() {
 		$scope.errorDialog.addClass('hide');
 		$scope.dialogCloseable.removeClass('hide');
 	};
+	/* actions } */
 
 	/* Facebook API { */
 	$scope.fbGetLoginStatus = function() {
