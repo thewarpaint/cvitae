@@ -322,6 +322,10 @@ var CvitaeCtrl = function($scope) {
 	};
 	/* collections } */
 
+	$scope.clear = function() {
+		$scope.cvitae = CvitaeApp.cvitae;
+	};
+
 	$scope.save = function() {
 		if($scope.hasStorage && $scope.hasJSON) {
 			localStorage.setItem('cvitae.cvitae', JSON.stringify($scope.cvitae));
@@ -387,69 +391,72 @@ var CvitaeCtrl = function($scope) {
 	};
 
 	$scope.fbGetData = function() {
-		FB.api('/me', function(response) {
-			//$('body').scope().$apply(function($scope) {
-			$scope.cvitae.personal.firstName = response.first_name + (response.middle_name ? (' ' + response.middle_name) : '');
-			$scope.cvitae.personal.lastName = response.last_name;
+		FB.api('/me', $scope.fbGetDataCallback);
+	};
 
-			//missing: $scope.cvitae.personal. [dateOfBirth, email, address, borough, state, phones?]
-			$scope.cvitae.personal.dateOfBirth = response.birthday.split('/').reverse().join('-');
-			$scope.cvitae.personal.email = response.email;
+	$scope.fbGetDataCallback = function(response) {
+		//$('body').scope().$apply(function($scope) {
+		$scope.cvitae.personal.firstName = response.first_name + (response.middle_name ? (' ' + response.middle_name) : '');
+		$scope.cvitae.personal.lastName = response.last_name;
 
-			// Education
-			if(response.education) {
-				var education;
-				$scope.cvitae.education = [];
+		//missing: $scope.cvitae.personal. [dateOfBirth, email, address, borough, state, phones?]
+		$scope.cvitae.personal.dateOfBirth = response.birthday.split('/').reverse().join('-');
+		$scope.cvitae.personal.email = response.email;
 
-				for(var i=0, educationLen = response.education.length; i<educationLen; i++) {
-					if(response.education[i].type == 'High School' || response.education[i].type == 'College' || response.education[i].type == 'Graduate School') {
-						//missing: $scope.cvitae.education. [current?, startDate, school, degree?]
-						education = {};
-						education['institution'] = response.education[i].school.name;
+		// Education
+		if(response.education) {
+			var education;
+			$scope.cvitae.education = [];
 
-						if(response.education[i].concentration) {
-							education['degree'] = response.education[i].concentration[0].name;
-						}
+			for(var i=0, educationLen = response.education.length; i<educationLen; i++) {
+				if(response.education[i].type == 'High School' || response.education[i].type == 'College' || response.education[i].type == 'Graduate School') {
+					//missing: $scope.cvitae.education. [current?, startDate, school, degree?]
+					education = {};
+					education['institution'] = response.education[i].school.name;
 
-						if(response.education[i].year) {
-							education['endDate'] = response.education[i].year.name;
-						}
-
-						$scope.cvitae.education.push(education);
+					if(response.education[i].concentration) {
+						education['degree'] = response.education[i].concentration[0].name;
 					}
+
+					if(response.education[i].year) {
+						education['endDate'] = response.education[i].year.name;
+					}
+
+					$scope.cvitae.education.push(education);
 				}
 			}
+		}
 
-			// Employment
-			if(response.work) {
-				var employment;
-				$scope.cvitae.employment = [];
+		// Employment
+		if(response.work) {
+			var employment;
+			$scope.cvitae.employment = [];
 
-				for(var i=0, employmentLen = response.work.length; i<employmentLen; i++) {
-					//missing: $scope.cvitae.education. [current?, department, description]
-					employment = {};
-					employment['company'] = response.work[i].employer.name;
+			for(var i=0, employmentLen = response.work.length; i<employmentLen; i++) {
+				//missing: $scope.cvitae.education. [current?, department, description]
+				employment = {};
+				employment['company'] = response.work[i].employer.name;
 
-					if(response.work[i].start_date) {
-						employment['startDate'] = (response.work[i].start_date.split('-'))[0];
-					}
-
-					if(response.work[i].end_date) {
-						employment['endDate'] = (response.work[i].end_date.split('-'))[0];
-					}
-
-					if(response.work[i].position) {
-						employment['position'] = response.work[i].position.name;
-					}
-
-					$scope.cvitae.employment.push(employment);
+				if(response.work[i].start_date) {
+					employment['startDate'] = (response.work[i].start_date.split('-'))[0];
 				}
-			}
-			//});
 
-			$scope.closeDialog();
-			console.log(response);
-		});
+				if(response.work[i].end_date) {
+					employment['endDate'] = (response.work[i].end_date.split('-'))[0];
+				}
+
+				if(response.work[i].position) {
+					employment['position'] = response.work[i].position.name;
+				}
+
+				$scope.cvitae.employment.push(employment);
+			}
+		}
+		//});
+
+		$scope.closeDialog();
+		//console.log(response);
+		console.log($scope.cvitae);
 	};
 	/* Facebook API } */
 
