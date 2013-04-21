@@ -649,7 +649,14 @@ var TechnologyCtrl = function($scope) {
 angular.module('cvitaeFilters', []).
 	filter('markdown', function() {
 		return function(value) {
-			return markdown.toHTML(value);
+			try {
+				value = markdown.toHTML(value);
+			}
+			catch(e) {
+				value = '';
+			}
+
+			return value;
 		}
 	}).
 	filter('gravtastic', function() {
